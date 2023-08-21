@@ -1,3 +1,5 @@
+LaTeX模板出自：[Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/), 以下内容均为转载
+
 # Résumé
 
 Hit branch [master](https://github.com/billryan/resume/tree/master) if you wanna an English résumé.
