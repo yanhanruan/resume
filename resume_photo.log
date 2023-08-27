@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.5.28)  22 AUG 2023 01:38
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.5.28)  27 AUG 2023 21:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -812,26 +812,24 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\FA' on input line 60.
+(hyperref)                removing `\FA' on input line 71.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\FA' on input line 80.
 
 [1
 
 ] (./resume_photo.aux)
-
-Package rerunfilecheck Warning: File `resume_photo.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `resume_photo.out':
-(rerunfilecheck)             Before: 451F1B328BAA86CE63090432BB725503;1416
-(rerunfilecheck)             After:  0274AC940CC80ED200C3082AB78EF21B;1292.
+Package rerunfilecheck Info: File `resume_photo.out' has not changed.
+(rerunfilecheck)             Checksum: 50B2B3EACFF5727F63D37A15B41BAC92;1751.
  ) 
 Here is how much of TeX's memory you used:
- 26666 strings out of 476133
- 555799 string characters out of 5811991
- 905621 words of memory out of 5000000
- 47026 multiletter control sequences out of 15000+600000
- 471298 words of font info for 60 fonts, out of 8000000 for 9000
+ 26687 strings out of 476133
+ 557205 string characters out of 5811991
+ 909688 words of memory out of 5000000
+ 47042 multiletter control sequences out of 15000+600000
+ 471338 words of font info for 65 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  114i,14n,117p,485b,826s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
