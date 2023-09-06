@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.6)  6 SEP 2023 20:44
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.6)  6 SEP 2023 21:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -830,11 +830,11 @@ Package rerunfilecheck Info: File `resume_photo.out' has not changed.
 (rerunfilecheck)             Checksum: 50B2B3EACFF5727F63D37A15B41BAC92;1751.
  ) 
 Here is how much of TeX's memory you used:
- 26917 strings out of 475590
- 564490 string characters out of 5771180
- 1939432 words of memory out of 5000000
- 47825 multiletter control sequences out of 15000+600000
- 560148 words of font info for 73 fonts, out of 8000000 for 9000
+ 26889 strings out of 475590
+ 562396 string characters out of 5771180
+ 1938432 words of memory out of 5000000
+ 47799 multiletter control sequences out of 15000+600000
+ 560140 words of font info for 72 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  114i,14n,121p,485b,835s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
