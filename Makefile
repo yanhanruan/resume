@@ -1,25 +1,22 @@
-SRC = $(wildcard *.tex)
+SRC_DIR = .
+DIST_DIR = dist
+TEX_FILES = $(wildcard *.tex)
+PDF_FILES = $(patsubst %.tex,$(DIST_DIR)/%.pdf,$(TEX_FILES))
 
-PDFS = $(SRC:.tex=.pdf)
+.PHONY: all clean pdf
 
-all:	clean pdf
+all: pdf
 
-en:	clean xelatex resume.tex
+pdf: $(PDF_FILES)
 
-zh_CN:	clean xelatex resume-zh_CN.tex
-
-pdf:	clean $(PDFS)
-
-%.pdf:  %.tex
-	xelatex $<
-
-ifeq ($(OS),Windows_NT)
-  # on Windows
-  RM = cmd //C del
-else
-  # on Unix/Linux
-  RM = rm -f
-endif
+$(DIST_DIR)/%.pdf: %.tex
+	@echo "Compiling $< to $@"
+	if not exist "$(DIST_DIR)" mkdir "$(DIST_DIR)"
+	xelatex -output-directory=$(DIST_DIR) $<
 
 clean:
-	$(RM) *.log *.aux *.bbl *.blg *.synctex.gz *.out *.toc *.lof *.idx *.ilg *.ind *.pdf
+	@echo "Cleaning up generated files..."
+	if exist "$(DIST_DIR)" ( \
+		cd $(DIST_DIR) && \
+		del /Q *.log *.aux *.bbl *.blg *.synctex.gz *.out *.toc *.lof *.idx *.ilg *.ind \
+	)
