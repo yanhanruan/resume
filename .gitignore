@@ -26,4 +26,8 @@ build/
 # Exclude PDF files if you prefer not to commit them
 # *.pdf
 
+#miscellany
 obsolete/
+dist/
+assets/
+backup/
