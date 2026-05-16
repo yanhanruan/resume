@@ -1,64 +1,99 @@
-LaTeX模板出自：[Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/), 以下内容均为转载
+# yOHO's Résumé Template
 
-# Résumé
+[中文](#中文指南) | [English](#english-guide)
 
-Hit branch [master](https://github.com/billryan/resume/tree/master) if you wanna an English résumé.
+## 中文指南
 
-一个优雅的 \LaTeX\ 简历模板, 使用 \XeLaTeX\ 编译, 因为受不了古老的`res`和不太适合作为一页纸简历的`moderncv`, 遂自己动手写了这个模板， 受以下项目启发：
+### 项目简介
 
-- [zachscrivena/simple-resume-cv](https://github.com/zachscrivena/simple-resume-cv)
-- [res](https://www.ctan.org/pkg/res)
-- [JianXu's CV](http://www.jianxu.net/en/files/JianXu_CV.pdf)
-- [paciorek's CV/Resume template](http://www.stat.berkeley.edu/~paciorek/computingTips/Latex_template_creating_CV_.html)
-- [How to write a LaTeX class file and design your own CV (Part 1) - ShareLaTeX](https://www.sharelatex.com/blog/2011/03/27/how-to-write-a-latex-class-file-and-design-your-own-cv.html)
+本项目是个人简历的 LaTeX 源码仓库，采用模块化结构组织，方便管理和定制不同版本的简历。LaTeX 模板参考自 [Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/)
 
-其中最后一条 shareLaTeX 的总结清晰易懂，强烈建议围观。
-
-## Features
-
-- 极其容易定制和扩展 (`res`模板中枪倒地...)
-- 完善的 Unicode 字体支持, 因为用的是 \XeLaTeX\ 嘛
-- 完美的中文支持，使用 Adobefonts
-- 支持 FontAwesome 4.3.0 (目前还不支持使用别名)
-
-### Sample Output
-
-![resume-zh_CN.png](./resume-zh_CN.png)
-
-## Usage
-
-1. ShareLaTeX 在线编译，麻麻再也不用担心系统和发行版的问题了
-2. 使用较新的 \LaTeX\ 发行版在本地计算机编译
-
-如果确定只需要中文简历的话单独克隆 `zh_CN` 分支即可, 需要注意的是该分支包含 Adobe 的宋楷黑仿四套中文字体，体积较大，如果本地安装有Adobe这四套字体的使用 master 英文模板即可。
+### 目录结构
 
 ```
-git clone https://github.com/billryan/resume.git --branch zh_CN --depth 1 --single-branch <folder>
+resume/
+├── resume.tex
+├── Makefile
+├── common/
+├── experiences/
+├── versions/
+├── style/
+└── fonts/
 ```
 
-如果系统已确定安装有 Adobe 的四套中文字型，在文档的开始处使用包`zh_CN-Adobefonts_internal`, 如果没有安装则使用包`zh_CN-Adobefonts_external`, 在 ShareLaTeX 上编译需要使用包`zh_CN-Adobefonts_external`.
+### 编译方式（推荐）
 
-其他具体使用可参考给出的范例，都是极其简单易懂的宏，建议先看看 [How to write a LaTeX class file and design your own CV (Part 1) - ShareLaTeX](https://www.sharelatex.com/blog/2011/03/27/how-to-write-a-latex-class-file-and-design-your-own-cv.html) 和 [How to write a LaTeX class file and design your own CV (Part 2) - ShareLaTeX](https://www.sharelatex.com/blog/2013/06/28/how-to-write-a-latex-class-file-and-design-your-own-cv.html) 了解下该模板的简单背景，下面就一些新定义的宏做简要介绍。
+使用 [Tectonic](https://tectonic-typesetting.github.io/) 本地轻量化编译，自动下载缺失宏包，无需安装完整 TeX 发行版。
 
-### 宏
+[点击查看安装教程](https://tectonic-typesetting.github.io/en-US/install.html)
 
-- `\name`: 姓名
-- `\contactInfo`: 联系信息, 需要三项信息，分别是{邮箱}{手机号}{个人主页}
-- `\basicContactInfo`: 简要的联系信息, 需要 项信息, 分别是{邮箱}{手机号}, 没有个人主页的用这个
-- `\section`: 用于分节, 如教育背景, 实习/项目经历等
-- `\subsection`: 用于小节标题, 无日期选项
-- `\datedsubsection`: 用于小节标题, 简历中使用最广，第二项为时间区间，自动右对齐
-- `\itemize`: 清单列表，简历中应用最广
-- `\enumerate`: 枚举列表，数字标号
+```bash
+# 编译主入口 resume.tex
+tectonic --outdir dist resume.tex
 
-### FontAwesome
+# 或编译 versions 目录下的版本
+tectonic --outdir dist versions/base_resume.tex
+tectonic --outdir dist versions/Lunaris_resume.tex
+```
 
-首先在 [Font Awesome Icons](http://fortawesome.github.io/Font-Awesome/icons/) 上选中自己想使用的图标(暂不支持 alias)，然后在 [fontawesome.sty](https://github.com/billryan/resume/blob/zh_CN/fontawesome.sty) 中找到相应的宏, 将其作为普通文本一样使用。
+### 如何定制简历
 
-其他的可以自行参考相应 cls 和 tex 文件。
+本项目采用高度模块化的设计：
 
-## License
+1. **版本控制**：在 `versions/` 目录下自定义不同版本
+2. **修改个人信息**：编辑 `common/header.tex`
+3. **调整模块组合**：在版本 tex 文件中通过 `\input{}` 控制包含哪些模块
+4. **添加经历**：在 `experiences/` 目录下新建 `.tex` 文件
+5. **修改样式**：编辑 `style/resume.cls`
 
-[The MIT License (MIT)](http://opensource.org/licenses/MIT)
 
-Copyrighted fonts are not subjected to this License.
+
+## English Guide
+
+### Introduction
+
+This repository contains the LaTeX source code for a personal résumé, organized in a modular structure for easy management and customization. LaTeX template inspired by [Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/)
+
+### Directory Structure
+
+```
+resume/
+├── resume.tex
+├── Makefile
+├── common/
+├── experiences/
+├── versions/
+├── style/
+└── fonts/
+```
+
+### Compilation (Recommended)
+
+Use [Tectonic](https://tectonic-typesetting.github.io/) for lightweight local compilation — it automatically downloads missing packages, no full TeX distribution required.
+
+[Click to install](https://tectonic-typesetting.github.io/en-US/install.html)
+
+```bash
+# Compile the main entry point
+tectonic --outdir dist resume.tex
+
+# Or compile specific versions
+tectonic --outdir dist versions/base_resume.tex
+tectonic --outdir dist versions/Lunaris_resume.tex
+```
+
+### How to Customize the Résumé
+
+The project follows a highly modular design:
+
+1. **Version control**: Customize different versions under `versions/`
+2. **Personal info**: Edit `common/header.tex`
+3. **Module composition**: Use `\input{}` in version `.tex` files to control which modules are included
+4. **Add experiences**: Create new `.tex` files under `experiences/`
+5. **Modify styles**: Edit `style/resume.cls`
+
+------
+
+### License
+
+The MIT License (MIT). Copyrighted fonts are not subjected to this License.
