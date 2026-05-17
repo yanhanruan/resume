@@ -28,12 +28,17 @@ resume/
 [点击查看安装教程](https://tectonic-typesetting.github.io/en-US/install.html)
 
 ```bash
-# 编译主入口 resume.tex
-tectonic --outdir dist resume.tex
+# 编译 versions 目录下的版本
+tectonic ./versions/base_resume.tex
+tectonic ./versions/xxx_resume.tex
+```
 
-# 或编译 versions 目录下的版本
-tectonic --outdir dist versions/base_resume.tex
-tectonic --outdir dist versions/Lunaris_resume.tex
+#### 自动重新编译
+
+配合 [watchexec](https://github.com/watchexec/watchexec) 可实现文件变更时自动重新编译：
+
+```bash
+watchexec -e tex -w common -w experiences -w versions tectonic ./versions/base_resume.tex
 ```
 
 ### 如何定制简历
@@ -74,12 +79,17 @@ Use [Tectonic](https://tectonic-typesetting.github.io/) for lightweight local co
 [Click to install](https://tectonic-typesetting.github.io/en-US/install.html)
 
 ```bash
-# Compile the main entry point
-tectonic --outdir dist resume.tex
+# compile specific versions
+tectonic ./versions/base_resume.tex
+tectonic ./versions/xxx_resume.tex
+```
 
-# Or compile specific versions
-tectonic --outdir dist versions/base_resume.tex
-tectonic --outdir dist versions/Lunaris_resume.tex
+#### Auto-rebuild on file changes
+
+Use [watchexec](https://github.com/watchexec/watchexec) to automatically recompile when files change:
+
+```bash
+watchexec -e tex -w common -w experiences -w versions tectonic ./versions/base_resume.tex
 ```
 
 ### How to Customize the Résumé
