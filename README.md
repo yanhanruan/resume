@@ -47,9 +47,28 @@ watchexec -e tex -w common -w experiences -w versions tectonic ./versions/base_r
 
 1. **版本控制**：在 `versions/` 目录下自定义不同版本
 2. **修改个人信息**：编辑 `common/header.tex`
-3. **调整模块组合**：在版本 tex 文件中通过 `\input{}` 控制包含哪些模块
+3. **调整模块组合**：在版本 tex 文件中通过 `\resumeInput{}` 控制包含哪些模块
 4. **添加经历**：在 `experiences/` 目录下新建 `.tex` 文件
 5. **修改样式**：编辑 `style/resume.cls`
+
+### 用真实内容覆盖模板（隐私保护）
+
+仓库里 `common/`、`experiences/` 下提交的都是**通用占位模板**，可直接编译出一份示例简历。你的**真实简历内容放在 `private/` 目录**，该目录已被 `.gitignore` 忽略，永远不会提交到 git。
+
+编译时，`style/resume.cls` 中的 `\resumeInput{path}` 会**优先读取 `private/path`，找不到才回退到提交的模板**。例如：
+
+```
+private/
+├── common/
+│   ├── header.tex          # 覆盖 common/header.tex
+│   └── education.tex
+└── experiences/
+    └── your_project.tex
+```
+
+- 把你想覆盖的文件，按相同相对路径放进 `private/` 即可自动生效，无需改动版本 tex 文件。
+- 编译出的 PDF（`*.pdf`、`dist/`）也已被忽略，不会泄露个人信息。
+- 别人 clone 本仓库时没有 `private/`，会直接编译出占位模板；你本地有 `private/` 则自动使用真实内容。
 
 
 
@@ -98,9 +117,28 @@ The project follows a highly modular design:
 
 1. **Version control**: Customize different versions under `versions/`
 2. **Personal info**: Edit `common/header.tex`
-3. **Module composition**: Use `\input{}` in version `.tex` files to control which modules are included
+3. **Module composition**: Use `\resumeInput{}` in version `.tex` files to control which modules are included
 4. **Add experiences**: Create new `.tex` files under `experiences/`
 5. **Modify styles**: Edit `style/resume.cls`
+
+### Overriding the Template with Real Content (Privacy)
+
+The `common/` and `experiences/` files committed to this repo are **generic placeholder templates** that compile into a sample résumé out of the box. Put your **real content in the `private/` directory**, which is listed in `.gitignore` and is never committed.
+
+At compile time, `\resumeInput{path}` (defined in `style/resume.cls`) **prefers `private/path` and falls back to the committed template** when it is absent. For example:
+
+```
+private/
+├── common/
+│   ├── header.tex          # overrides common/header.tex
+│   └── education.tex
+└── experiences/
+    └── your_project.tex
+```
+
+- Drop a file into `private/` under the same relative path to override it automatically — no need to touch the version `.tex` files.
+- Compiled PDFs (`*.pdf`, `dist/`) are ignored too, so they cannot leak personal data.
+- Anyone cloning the repo has no `private/` and compiles the placeholder template; your local `private/` makes your build use the real content.
 
 ------
 

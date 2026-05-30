@@ -23,12 +23,13 @@ build/
 *.swp
 *~
 
-# Exclude PDF files if you prefer not to commit them
-# *.pdf
+# Compiled PDFs (may contain personal data) — keep them local, do not commit
+*.pdf
+dist/
+
+# Private real résumé content — overrides the committed generic templates
+# via \resumeInput in style/resume.cls. Kept local, never committed.
+private/
 
 #miscellany
-obsolete/
-dist/
-assets/
-backup/
-branches/
+miscellany/

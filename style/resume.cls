@@ -62,6 +62,14 @@
   {}
 \titlespacing*{\subsection}{0cm}{*1.8}{*0.6}
 
+% Input a resume module, preferring a local private/ override if present.
+% usage: \resumeInput{common/header.tex}
+% Looks for ../private/<path> first (gitignored, real data); falls back to
+% ../<path> (the committed generic template).
+\newcommand{\resumeInput}[1]{%
+  \IfFileExists{../private/#1}{\input{../private/#1}}{\input{../#1}}%
+}
+
 \newcommand{\datedsection}[2]{%
   \section[#1]{#1 \hfill #2}%
 }
