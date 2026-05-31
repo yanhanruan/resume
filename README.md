@@ -6,141 +6,165 @@
 
 ### 项目简介
 
-本项目是个人简历的 LaTeX 源码仓库，采用模块化结构组织，方便管理和定制不同版本的简历。LaTeX 模板参考自 [Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/)
+本项目是一个模块化的 LaTeX 简历模板，把简历拆成可复用的小模块，方便管理和维护**多个版本**（例如针对不同岗位的简历）。LaTeX 模板参考自 [Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/)。
 
 ### 目录结构
 
 ```
 resume/
-├── resume.tex
 ├── Makefile
-├── common/
-├── experiences/
-├── versions/
-├── style/
-└── fonts/
+├── common/        # 通用模块：header（个人信息）、education、skills、languages、summary
+├── experiences/   # 各段工作 / 项目经历，一个经历一个 .tex
+├── versions/      # 每个 .tex 是一份可独立编译的简历版本
+├── style/         # resume.cls 文档类与字体符号
+└── fonts/         # 字体文件
 ```
 
 ### 编译方式（推荐）
 
-使用 [Tectonic](https://tectonic-typesetting.github.io/) 本地轻量化编译，自动下载缺失宏包，无需安装完整 TeX 发行版。
+使用 [Tectonic](https://tectonic-typesetting.github.io/) 本地轻量化编译，自动下载缺失宏包，无需安装完整 TeX 发行版。[点击查看安装教程](https://tectonic-typesetting.github.io/en-US/install.html)
 
-[点击查看安装教程](https://tectonic-typesetting.github.io/en-US/install.html)
+在**项目根目录**下运行（文件里用的是相对路径，请勿进入 `versions/` 再编译）：
 
 ```bash
-# 编译 versions 目录下的版本
 tectonic ./versions/base_resume.tex
-tectonic ./versions/xxx_resume.tex
 ```
+
+PDF 会生成在该版本 `.tex` 同目录下（如 `versions/base_resume.pdf`）。
 
 #### 自动重新编译
 
-配合 [watchexec](https://github.com/watchexec/watchexec) 可实现文件变更时自动重新编译：
+配合 [watchexec](https://github.com/watchexec/watchexec) 可在文件变更时自动重编：
 
 ```bash
 watchexec -e tex -w common -w experiences -w versions tectonic ./versions/base_resume.tex
 ```
 
-### 如何定制简历
+### 如何修改内容
 
-本项目采用高度模块化的设计：
+按模块编辑对应文件即可：
 
-1. **版本控制**：在 `versions/` 目录下自定义不同版本
-2. **修改个人信息**：编辑 `common/header.tex`
-3. **调整模块组合**：在版本 tex 文件中通过 `\resumeInput{}` 控制包含哪些模块
-4. **添加经历**：在 `experiences/` 目录下新建 `.tex` 文件
-5. **修改样式**：编辑 `style/resume.cls`
+- **个人信息**（姓名、邮箱、电话、GitHub、地点）：`common/header.tex`
+- **教育 / 技能 / 语言 / 简介**：`common/` 下对应文件
+- **经历与项目正文**：`experiences/` 下对应文件
+- **整体样式**（页边距、字体、配色、章节标题等）：`style/resume.cls`
 
-### 用真实内容覆盖模板（隐私保护）
+### 版本管理（多份简历）
 
-仓库里 `common/`、`experiences/` 下提交的都是**通用占位模板**，可直接编译出一份示例简历。你的**真实简历内容放在 `private/` 目录**，该目录已被 `.gitignore` 忽略，永远不会提交到 git。
+`versions/` 下每个 `.tex` 就是一份独立简历。版本文件本身不写正文，只用 `\resumeInput{相对路径}` **挑选并组合模块**——按需增删、调整顺序，或用 `%` 注释掉暂时不要的模块：
 
-编译时，`style/resume.cls` 中的 `\resumeInput{path}` 会**优先读取 `private/path`，找不到才回退到提交的模板**。例如：
+```latex
+\resumeInput{common/header.tex}
 
+\section{Experience \& Projects}
+\resumeInput{experiences/project_a.tex}
+\resumeInput{experiences/project_b.tex}
+% \resumeInput{experiences/project_c.tex}   % 这版暂不包含
+
+\resumeInput{common/skills_base.tex}
 ```
-private/
-├── common/
-│   ├── header.tex          # 覆盖 common/header.tex
-│   └── education.tex
-└── experiences/
-    └── your_project.tex
-```
 
-- 把你想覆盖的文件，按相同相对路径放进 `private/` 即可自动生效，无需改动版本 tex 文件。
-- 编译出的 PDF（`*.pdf`、`dist/`）也已被忽略，不会泄露个人信息。
-- 别人 clone 本仓库时没有 `private/`，会直接编译出占位模板；你本地有 `private/` 则自动使用真实内容。
+> `\resumeInput{path}` 中的路径相对于**项目根目录**（即 `common/...`、`experiences/...`）。
 
+**新建一份版本**：复制 `versions/base_resume.tex` 并改名，例如 `versions/frontend_resume.tex`，再调整里面的 `\resumeInput` 组合即可。编译：`tectonic ./versions/frontend_resume.tex`。
 
+### 新增一段经历 / 项目
+
+1. 在 `experiences/` 下新建文件，例如 `experiences/my_project.tex`。
+2. 在需要它的版本文件里加一行：`\resumeInput{experiences/my_project.tex}`。
+
+### 重命名文件
+
+模板自带的文件名（如 `project_a.tex`、`skills_base.tex`）只是占位，建议改成对你有意义的名字：
+
+1. 重命名文件，例如 `experiences/project_a.tex` → `experiences/data_platform.tex`。
+2. 在**所有引用它的版本文件**里，把对应的 `\resumeInput{experiences/project_a.tex}` 改成新路径 `\resumeInput{experiences/data_platform.tex}`。
+
+`common/` 下的文件同理（重命名后记得同步更新引用路径）。
+
+---
 
 ## English Guide
 
 ### Introduction
 
-This repository contains the LaTeX source code for a personal résumé, organized in a modular structure for easy management and customization. LaTeX template inspired by [Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/)
+A modular LaTeX résumé template that splits a résumé into small, reusable modules, making it easy to maintain **multiple versions** (e.g. tailored to different roles). LaTeX template inspired by [Tiankui Zhang](https://tiankuizhang.github.io/files/00CV_CN/).
 
 ### Directory Structure
 
 ```
 resume/
-├── resume.tex
 ├── Makefile
-├── common/
-├── experiences/
-├── versions/
-├── style/
-└── fonts/
+├── common/        # shared modules: header (contact), education, skills, languages, summary
+├── experiences/   # work / project experiences, one .tex per item
+├── versions/      # each .tex is a self-contained, compilable résumé version
+├── style/         # the resume.cls document class and font symbols
+└── fonts/         # font files
 ```
 
 ### Compilation (Recommended)
 
-Use [Tectonic](https://tectonic-typesetting.github.io/) for lightweight local compilation — it automatically downloads missing packages, no full TeX distribution required.
+Use [Tectonic](https://tectonic-typesetting.github.io/) for lightweight local compilation — it auto-downloads missing packages, no full TeX distribution required. [Install guide](https://tectonic-typesetting.github.io/en-US/install.html)
 
-[Click to install](https://tectonic-typesetting.github.io/en-US/install.html)
+Run from the **project root** (the files use relative paths, so don't `cd` into `versions/` first):
 
 ```bash
-# compile specific versions
 tectonic ./versions/base_resume.tex
-tectonic ./versions/xxx_resume.tex
 ```
+
+The PDF is written next to the version's `.tex` (e.g. `versions/base_resume.pdf`).
 
 #### Auto-rebuild on file changes
 
-Use [watchexec](https://github.com/watchexec/watchexec) to automatically recompile when files change:
+Use [watchexec](https://github.com/watchexec/watchexec) to recompile automatically when files change:
 
 ```bash
 watchexec -e tex -w common -w experiences -w versions tectonic ./versions/base_resume.tex
 ```
 
-### How to Customize the Résumé
+### How to Edit Content
 
-The project follows a highly modular design:
+Edit the relevant module file:
 
-1. **Version control**: Customize different versions under `versions/`
-2. **Personal info**: Edit `common/header.tex`
-3. **Module composition**: Use `\resumeInput{}` in version `.tex` files to control which modules are included
-4. **Add experiences**: Create new `.tex` files under `experiences/`
-5. **Modify styles**: Edit `style/resume.cls`
+- **Contact info** (name, email, phone, GitHub, location): `common/header.tex`
+- **Education / skills / languages / summary**: the matching file under `common/`
+- **Experience & project body text**: the matching file under `experiences/`
+- **Overall styling** (margins, fonts, colors, section headings): `style/resume.cls`
 
-### Overriding the Template with Real Content (Privacy)
+### Version Management (Multiple Résumés)
 
-The `common/` and `experiences/` files committed to this repo are **generic placeholder templates** that compile into a sample résumé out of the box. Put your **real content in the `private/` directory**, which is listed in `.gitignore` and is never committed.
+Each `.tex` under `versions/` is a standalone résumé. A version file holds no body text — it only uses `\resumeInput{path}` to **select and compose modules**. Add, remove, reorder, or comment out (`%`) modules as needed:
 
-At compile time, `\resumeInput{path}` (defined in `style/resume.cls`) **prefers `private/path` and falls back to the committed template** when it is absent. For example:
+```latex
+\resumeInput{common/header.tex}
 
+\section{Experience \& Projects}
+\resumeInput{experiences/project_a.tex}
+\resumeInput{experiences/project_b.tex}
+% \resumeInput{experiences/project_c.tex}   % excluded from this version
+
+\resumeInput{common/skills_base.tex}
 ```
-private/
-├── common/
-│   ├── header.tex          # overrides common/header.tex
-│   └── education.tex
-└── experiences/
-    └── your_project.tex
-```
 
-- Drop a file into `private/` under the same relative path to override it automatically — no need to touch the version `.tex` files.
-- Compiled PDFs (`*.pdf`, `dist/`) are ignored too, so they cannot leak personal data.
-- Anyone cloning the repo has no `private/` and compiles the placeholder template; your local `private/` makes your build use the real content.
+> The path in `\resumeInput{path}` is relative to the **project root** (i.e. `common/...`, `experiences/...`).
 
-------
+**Create a new version**: copy `versions/base_resume.tex`, rename it (e.g. `versions/frontend_resume.tex`), and adjust the `\resumeInput` list. Compile with `tectonic ./versions/frontend_resume.tex`.
+
+### Adding an Experience / Project
+
+1. Create a file under `experiences/`, e.g. `experiences/my_project.tex`.
+2. Add one line to each version that should include it: `\resumeInput{experiences/my_project.tex}`.
+
+### Renaming Files
+
+The default file names (e.g. `project_a.tex`, `skills_base.tex`) are just placeholders — rename them to something meaningful:
+
+1. Rename the file, e.g. `experiences/project_a.tex` → `experiences/data_platform.tex`.
+2. In **every version file that references it**, update the matching `\resumeInput{experiences/project_a.tex}` to the new path `\resumeInput{experiences/data_platform.tex}`.
+
+Files under `common/` work the same way — update the references after renaming.
+
+---
 
 ### License
 
