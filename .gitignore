@@ -31,5 +31,12 @@ dist/
 # via \resumeInput in style/resume.cls. Kept local, never committed.
 private/
 
+# Company-tailored application versions stay local. Only the two public
+# template wrappers below are tracked; any other versions/*_resume.tex
+# (e.g. one tailored to a specific employer) is ignored by default.
+versions/*_resume.tex
+!versions/base_resume.tex
+!versions/alt_resume.tex
+
 #miscellany
 miscellany/
